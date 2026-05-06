@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { AcrylicCard } from "@/components/ui/AcrylicCard";
 import { itemVariants } from "@/lib/animations";
-import { recentActivities } from "@/data/mockDashboardData";
+import { ActivityItem } from "@/data/mockDashboardData";
 
 const activityColorMap: Record<string, { bg: string; text: string }> = {
   secondary: { bg: "bg-secondary/10", text: "text-secondary" },
@@ -11,7 +11,11 @@ const activityColorMap: Record<string, { bg: string; text: string }> = {
   white: { bg: "bg-white/10", text: "text-on-surface-variant" },
 };
 
-export function ActivityFeed() {
+interface ActivityFeedProps {
+  activities: ActivityItem[];
+}
+
+export function ActivityFeed({ activities }: ActivityFeedProps) {
   return (
     <motion.div variants={itemVariants} className="xl:col-span-1">
       <AcrylicCard className="flex flex-col h-full overflow-hidden !px-0 py-0 pb-0">
@@ -24,7 +28,7 @@ export function ActivityFeed() {
           </button>
         </div>
         <div className="p-2 space-y-1 overflow-y-auto max-h-[calc(100vh-280px)] hide-scrollbar">
-          {recentActivities.map((activity, i) => (
+          {activities.map((activity, i) => (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}

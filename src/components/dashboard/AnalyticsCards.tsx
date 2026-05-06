@@ -3,9 +3,12 @@
 import { motion } from "framer-motion";
 import { AcrylicCard } from "@/components/ui/AcrylicCard";
 import { itemVariants } from "@/lib/animations";
-import { activeInstanceValues } from "@/data/mockDashboardData";
 
-export function AnalyticsCards() {
+interface AnalyticsCardsProps {
+  activeInstances: number[];
+}
+
+export function AnalyticsCards({ activeInstances }: AnalyticsCardsProps) {
   return (
     <>
       <motion.div variants={itemVariants} className="md:col-span-1">
@@ -53,7 +56,7 @@ export function AnalyticsCards() {
             </span>
           </div>
           <div className="flex items-end gap-1 h-24">
-            {activeInstanceValues.map((height, i) => (
+            {activeInstances.map((height, i) => (
               <motion.div
                 key={i}
                 initial={{ height: 0 }}
