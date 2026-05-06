@@ -1,16 +1,15 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { AcrylicCard } from "@/components/ui/AcrylicCard";
+import { containerVariants, itemVariants } from "@/lib/animations";
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+// Static color map — Tailwind purges dynamically constructed classes at build time,
+// so we must use complete class strings that the scanner can find.
+const activityColorMap: Record<string, { bg: string; text: string }> = {
+  secondary: { bg: "bg-secondary/10", text: "text-secondary" },
+  tertiary:  { bg: "bg-tertiary/10",  text: "text-tertiary" },
+  white:     { bg: "bg-white/10",     text: "text-on-surface-variant" },
 };
 
 export default function DashboardPage() {
@@ -178,8 +177,8 @@ export default function DashboardPage() {
                 >
                   <div className="flex gap-3">
                     <div className="mt-1">
-                      <div className={`w-8 h-8 rounded-full bg-${activity.color === 'white' ? 'white/10' : activity.color+'/10'} flex items-center justify-center`}>
-                        <span className={`material-symbols-outlined text-${activity.color === 'white' ? 'on-surface-variant' : activity.color} text-sm`}>{activity.icon}</span>
+                      <div className={`w-8 h-8 rounded-full ${activityColorMap[activity.color]?.bg ?? 'bg-white/10'} flex items-center justify-center`}>
+                        <span className={`material-symbols-outlined ${activityColorMap[activity.color]?.text ?? 'text-on-surface-variant'} text-sm`}>{activity.icon}</span>
                       </div>
                     </div>
                     <div>

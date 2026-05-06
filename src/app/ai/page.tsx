@@ -21,7 +21,7 @@ export default function AIExplanationPage() {
             <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Active Documentation</p>
           </div>
           {APP_SIDEBAR_LINKS.map(link => (
-            <button key={link.label} className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-white hover:bg-white/5 transition-all duration-200 font-sans text-xs font-semibold uppercase tracking-widest active:translate-x-1 duration-150 rounded-lg">
+            <button key={link.label} className="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-white hover:bg-white/5 transition-all duration-200 font-sans text-xs font-semibold uppercase tracking-widest active:translate-x-1 rounded-lg">
               <span className="material-symbols-outlined text-sm">{link.icon}</span>
               {link.label}
             </button>
