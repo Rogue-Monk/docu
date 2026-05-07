@@ -1,9 +1,13 @@
 "use client";
 
-
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { docsData } from "@/data/docsData";
 
 export function DocsSidebar() {
+  const pathname = usePathname();
+
   return (
     <motion.aside 
       initial={{ x: -250, opacity: 0 }}
@@ -29,25 +33,34 @@ export function DocsSidebar() {
           <span className="font-sans text-[0.875rem] font-medium">authentication_core</span>
           <div className="absolute left-0 w-1 h-4 bg-secondary rounded-r-full"></div>
         </button>
-        <div className="ml-4 border-l border-white/10 flex flex-col gap-1 mt-1">
-          <button className="flex items-center gap-3 px-4 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-white/5 rounded-lg transition-all">
-            <span className="material-symbols-outlined text-sm opacity-60">javascript</span>
-            <span className="font-sans text-[0.875rem]">JWTProvider.ts</span>
-          </button>
-          <button className="flex items-center gap-3 px-4 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-white/5 rounded-lg transition-all">
-            <span className="material-symbols-outlined text-sm opacity-60">javascript</span>
-            <span className="font-sans text-[0.875rem]">AuthGuard.ts</span>
-          </button>
-          <button className="flex items-center gap-3 px-4 py-1.5 bg-secondary/10 text-secondary rounded-lg transition-all font-medium">
-            <span className="material-symbols-outlined text-sm">schema</span>
-            <span className="font-sans text-[0.875rem]">SessionSchema.ts</span>
-          </button>
+        
+        <div className="ml-4 border-l border-white/10 flex flex-col gap-1 mt-1 py-1">
+          {docsData.map((doc) => {
+            const isActive = pathname === `/docs/${doc.slug}`;
+            return (
+              <Link
+                href={`/docs/${doc.slug}`}
+                key={doc.slug}
+                className={`flex items-center gap-3 px-4 py-1.5 rounded-lg transition-all font-medium ${
+                  isActive
+                    ? "bg-secondary/10 text-secondary"
+                    : "text-on-surface-variant hover:text-on-surface hover:bg-white/5"
+                }`}
+              >
+                <span className={`material-symbols-outlined text-sm ${!isActive && "opacity-60"}`}>
+                  {doc.type === "Interface" ? "schema" : doc.type === "Class" ? "data_object" : "function"}
+                </span>
+                <span className="font-sans text-[0.875rem] truncate">{doc.title}.ts</span>
+              </Link>
+            );
+          })}
         </div>
+
         <div className="mt-4 flex flex-col gap-1">
-          <button className="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-white/5 rounded-lg transition-all">
+          <Link href="/ai" className="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-white/5 rounded-lg transition-all">
             <span className="material-symbols-outlined text-sm">auto_awesome</span>
             <span className="font-sans text-[0.875rem]">AI Assistant</span>
-          </button>
+          </Link>
           <button className="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-white/5 rounded-lg transition-all">
              <span className="material-symbols-outlined text-sm">rocket_launch</span>
              <span className="font-sans text-[0.875rem]">Deployments</span>
