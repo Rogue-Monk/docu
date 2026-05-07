@@ -2,9 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useParams } from "next/navigation";
 import { DocItem } from "@/data/docsData";
 
-export default function DynamicDocPage({ params }: { params: { slug: string } }) {
+export default function DynamicDocPage() {
+  const params = useParams();
+  const slug = params.slug as string;
+
   const [doc, setDoc] = useState<DocItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +18,7 @@ export default function DynamicDocPage({ params }: { params: { slug: string } })
       setIsLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/docs/${params.slug}`);
+        const res = await fetch(`/api/docs/${slug}`);
         const json = await res.json();
         
         if (json.success) {
@@ -30,7 +34,7 @@ export default function DynamicDocPage({ params }: { params: { slug: string } })
     };
 
     fetchDoc();
-  }, [params.slug]);
+  }, [slug]);
 
   if (isLoading) {
     return (

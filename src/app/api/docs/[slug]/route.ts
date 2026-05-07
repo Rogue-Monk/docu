@@ -3,9 +3,9 @@ import { docsData } from "@/data/docsData";
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = params;
+  const { slug } = await params;
 
   // Simulate slight network latency
   await new Promise((resolve) => setTimeout(resolve, 300));

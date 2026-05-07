@@ -3,10 +3,16 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { User } from "@supabase/supabase-js";
 import { GlobalSearchModal } from "@/components/ui/GlobalSearchModal";
+import { createClient } from "@/utils/supabase/client";
 
 export function TopNav() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -18,6 +24,31 @@ export function TopNav() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+      if (event === 'SIGNED_OUT') {
+        router.refresh();
+      }
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, [supabase.auth, router]);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.push("/");
+    router.refresh();
+  };
 
   return (
     <>
@@ -76,15 +107,30 @@ export function TopNav() {
           <Link href="/settings" className="material-symbols-outlined text-on-surface-variant hover:text-on-surface transition-colors">
             settings
           </Link>
-          <Link href="/connect">
-            <motion.button 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="machined-finish text-on-secondary font-bold px-5 py-2 rounded-lg text-xs uppercase tracking-wider"
-            >
-              Connect Repo
-            </motion.button>
-          </Link>
+          
+          {user ? (
+            <div className="flex items-center gap-3 ml-2 border-l border-white/10 pl-4">
+              <span className="text-xs text-on-surface-variant hidden md:block truncate max-w-[120px]">{user.email}</span>
+              <button 
+                onClick={handleSignOut}
+                className="text-xs font-bold text-white/70 hover:text-white transition-colors uppercase tracking-widest bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 ml-2 border-l border-white/10 pl-4">
+              <Link href="/login">
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="machined-finish text-on-secondary font-bold px-5 py-2 rounded-lg text-xs uppercase tracking-wider"
+                >
+                  Log In
+                </motion.button>
+              </Link>
+            </div>
+          )}
         </div>
       </motion.nav>
       <GlobalSearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
