@@ -4,7 +4,7 @@ import { TopNav } from "@/components/layout/TopNav";
 export default function LoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string };
+  searchParams: { error?: string; next?: string };
 }) {
   return (
     <div className="flex flex-col min-h-screen bg-background overflow-hidden relative">
@@ -29,6 +29,7 @@ export default function LoginPage({
           </div>
 
           <form className="flex flex-col gap-5">
+            <input type="hidden" name="next" value={searchParams.next || "/dashboard"} />
             <div>
               <label
                 htmlFor="email"

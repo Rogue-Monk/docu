@@ -9,6 +9,7 @@ export async function login(formData: FormData) {
   
   const email = formData.get('email') as string
   const password = formData.get('password') as string
+  const nextUrl = (formData.get('next') as string) || '/dashboard'
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -16,11 +17,11 @@ export async function login(formData: FormData) {
   })
 
   if (error) {
-    redirect('/login?error=Invalid email or password')
+    redirect(`/login?error=Invalid email or password&next=${encodeURIComponent(nextUrl)}`)
   }
 
-  revalidatePath('/dashboard')
-  redirect('/dashboard')
+  revalidatePath(nextUrl)
+  redirect(nextUrl)
 }
 
 export async function signup(formData: FormData) {
@@ -28,6 +29,7 @@ export async function signup(formData: FormData) {
 
   const email = formData.get('email') as string
   const password = formData.get('password') as string
+  const nextUrl = (formData.get('next') as string) || '/dashboard'
 
   const { error } = await supabase.auth.signUp({
     email,
@@ -35,13 +37,13 @@ export async function signup(formData: FormData) {
   })
 
   if (error) {
-    redirect(`/login?error=${error.message}`)
+    redirect(`/login?error=${error.message}&next=${encodeURIComponent(nextUrl)}`)
   }
 
-  revalidatePath('/dashboard')
-  // We redirect to dashboard assuming email confirmations are disabled for local testing.
+  revalidatePath(nextUrl)
+  // We redirect to the requested page assuming email confirmations are disabled for local testing.
   // If email confirmations are enabled, they should be redirected to a "check your email" page.
-  redirect('/dashboard')
+  redirect(nextUrl)
 }
 
 export async function signout() {

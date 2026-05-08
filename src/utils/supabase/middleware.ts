@@ -36,9 +36,10 @@ export async function updateSession(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route));
 
   if (isProtectedRoute && !user) {
-    // Redirect unauthenticated users to login page
+    // Redirect unauthenticated users to login page with next param
     const url = request.nextUrl.clone()
     url.pathname = '/login'
+    url.searchParams.set('next', request.nextUrl.pathname)
     return NextResponse.redirect(url)
   }
 
