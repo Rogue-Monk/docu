@@ -10,11 +10,11 @@ import { ToggleSwitch } from "@/components/ui/ToggleSwitch";
 
 export default function SettingsPage() {
   return (
-    <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col pt-16">
+    <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col">
       <TopNav />
       <div className="flex flex-1 overflow-hidden">
         {/* SideNavBar for Settings */}
-        <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 border-r border-white/5 bg-[#0e0e0e]/60 backdrop-blur-md hidden md:flex flex-col p-4 gap-2 z-40">
+        <aside className="fixed left-0 top-0 h-screen w-64 border-r border-white/5 bg-[#0e0e0e]/60 backdrop-blur-md hidden md:flex flex-col p-4 pt-20 gap-2 z-40">
           <div className="mb-6 px-2 mt-4">
             <div className="text-lg font-bold text-white">V8-Turbo-2024</div>
             <div className="text-[10px] text-on-surface-variant uppercase tracking-widest">Active Documentation</div>
@@ -40,7 +40,7 @@ export default function SettingsPage() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 md:ml-64 p-8 overflow-y-auto custom-scrollbar relative z-10 w-full mb-16">
+        <main className="flex-1 md:ml-64 p-8 overflow-y-auto custom-scrollbar relative z-10 w-full mb-16 pb-24">
           <motion.div variants={containerVariants} initial="hidden" animate="show" className="max-w-4xl mx-auto">
             {/* Header Section */}
             <div className="mb-12 mt-4">

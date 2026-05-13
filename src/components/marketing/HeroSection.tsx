@@ -3,14 +3,14 @@
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import { AcrylicPanel } from "@/components/ui/AcrylicCard";
-import { CodeWindow } from "@/components/ui/CodeWindow";
+import { TextRotate } from "@/components/ui/text-rotate";
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden pt-24 pb-32 px-6">
       {/* Background Atmosphere */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-20">
-        <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] bg-secondary/30 blur-[180px] rounded-full"></div>
+        <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] bg-primary/30 blur-[180px] rounded-full"></div>
         <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-tertiary/20 blur-[160px] rounded-full"></div>
       </div>
       
@@ -21,12 +21,26 @@ export function HeroSection() {
           variants={staggerContainer}
           className="space-y-8"
         >
-          <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3 py-1 acrylic-panel rounded-full border border-secondary/20">
-            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse shadow-[0_0_10px_rgba(0,220,130,0.5)]"></span>
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-secondary">Engine v2.4.0 now live</span>
+          <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3 py-1 acrylic-panel rounded-full border border-primary/20">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(255,77,0,0.5)]"></span>
+            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary">Engine v2.4.0 now live</span>
           </motion.div>
-          <motion.h1 variants={fadeUp} className="text-6xl lg:text-8xl font-black tracking-tighter leading-[0.95] text-on-surface">
-            Turn Code Into <span className="text-secondary">Docs</span> <span className="italic font-light opacity-80">Instantly.</span>
+          <motion.h1 variants={fadeUp} className="text-6xl lg:text-8xl font-black tracking-tighter leading-[1.1] text-on-surface flex flex-col items-start gap-2">
+            <div>Turn Code Into</div>
+            <div className="flex items-center flex-wrap gap-4">
+              <span className="text-primary inline-flex">
+                <TextRotate
+                  texts={["Docs", "API Specs", "Diagrams", "Tutorials", "Insights"]}
+                  mainClassName="overflow-hidden py-2"
+                  staggerFrom="last"
+                  staggerDuration={0.025}
+                  splitBy="characters"
+                  rotationInterval={3000}
+                  transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                />
+              </span>
+              <span className="italic font-light opacity-80">Instantly.</span>
+            </div>
           </motion.h1>
           <motion.p variants={fadeUp} className="text-xl text-on-surface-variant max-w-xl leading-relaxed font-light">
             Our neural engine understands your source code and generates editorial-grade documentation. Sync your repository, eliminate the debt.

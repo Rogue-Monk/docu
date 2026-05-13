@@ -5,9 +5,9 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-background">
       <TopNav />
-      <div className="flex flex-1 pt-16 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden">
         <DocsSidebar />
-        <div className="flex-1 overflow-hidden relative" style={{ background: "radial-gradient(circle at 50% 0%, rgba(0, 220, 130, 0.03) 0%, transparent 50%), #0e0e0e" }}>
+        <div className="flex-1 overflow-hidden relative pb-24 bg-[#0a0a0a]">
            {children}
         </div>
       </div>

@@ -6,7 +6,7 @@ import { PlatformIntegration } from "@/components/marketing/PlatformIntegration"
 
 export default function LandingPage() {
   return (
-    <main className="pt-16">
+    <main className="pb-24 pt-20">
       <HeroSection />
       <FeaturesBentoGrid />
       <PlatformIntegration />

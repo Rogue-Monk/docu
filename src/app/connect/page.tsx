@@ -7,7 +7,7 @@ import { containerVariants, itemVariants } from "@/lib/animations";
 
 export default function ConnectPage() {
   return (
-    <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col pt-16">
+    <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col pb-24">
       <TopNav />
       {/* Background Gradient Decor */}
       <div className="fixed top-1/4 left-1/4 w-96 h-96 bg-secondary/10 blur-[120px] -z-10 rounded-full"></div>

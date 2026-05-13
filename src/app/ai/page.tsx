@@ -19,13 +19,13 @@ export default function AIExplanationPage() {
   });
 
   return (
-    <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col pt-16">
+    <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col">
       <TopNav />
 
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar Navigation */}
-        <aside className="hidden lg:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-64 border-r border-white/5 bg-[#0e0e0e]/60 backdrop-blur-md flex-col p-4 gap-2 z-40">
+        <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-64 border-r border-white/5 bg-[#0e0e0e]/60 backdrop-blur-md flex-col p-4 pt-20 gap-2 z-40">
           <div className="mb-6 px-2 mt-4">
             <h3 className="text-white text-lg font-bold">V8-Turbo-2024</h3>
             <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Active Documentation</p>
@@ -41,7 +41,7 @@ export default function AIExplanationPage() {
           ))}
         </aside>
 
-        <main className="flex-1 lg:ml-64 p-8 flex flex-col xl:flex-row gap-8 overflow-y-auto custom-scrollbar relative z-10 w-full mb-16 h-[calc(100vh-64px)]">
+        <main className="flex-1 lg:ml-64 p-8 pt-20 flex flex-col xl:flex-row gap-8 overflow-y-auto custom-scrollbar relative z-10 w-full mb-16 h-screen pb-24">
           {/* Center Editor Area (Simulated) */}
           <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex-grow max-w-4xl min-w-0">
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
