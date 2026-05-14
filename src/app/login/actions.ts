@@ -29,15 +29,23 @@ export async function signup(formData: FormData) {
 
   const email = formData.get('email') as string
   const password = formData.get('password') as string
+  const firstName = formData.get('firstName') as string
+  const lastName = formData.get('lastName') as string
   const nextUrl = (formData.get('next') as string) || '/dashboard'
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+      }
+    }
   })
 
   if (error) {
-    redirect(`/login?error=${error.message}&next=${encodeURIComponent(nextUrl)}`)
+    redirect(`/register?error=${encodeURIComponent(error.message)}&next=${encodeURIComponent(nextUrl)}`)
   }
 
   revalidatePath(nextUrl)

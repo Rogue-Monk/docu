@@ -9,15 +9,15 @@ import { GlobalSearchModal } from "@/components/ui/GlobalSearchModal";
 import { createClient } from "@/utils/supabase/client";
 import GlassDock from "@/components/ui/glass-dock";
 import {
-  Home,
+  House,
   FileText,
-  LayoutDashboard,
+  SquaresFour,
   Code,
-  Search,
-  Settings,
-  LogOut,
-  LogIn,
-} from "lucide-react";
+  MagnifyingGlass,
+  Gear,
+  SignOut,
+  SignIn,
+} from "@phosphor-icons/react";
 
 export function TopNav() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -68,7 +68,7 @@ export function TopNav() {
   const items = [
     {
       title: "Home",
-      icon: Home,
+      icon: House,
       onClick: () => router.push("/"),
     },
     {
@@ -78,7 +78,7 @@ export function TopNav() {
     },
     {
       title: "Dashboard",
-      icon: LayoutDashboard,
+      icon: SquaresFour,
       onClick: () => router.push("/dashboard"),
     },
     {
@@ -88,23 +88,23 @@ export function TopNav() {
     },
     {
       title: "Search",
-      icon: Search,
+      icon: MagnifyingGlass,
       onClick: () => setIsSearchOpen(true),
     },
     {
       title: "Settings",
-      icon: Settings,
+      icon: Gear,
       onClick: () => router.push("/settings"),
     },
     user
       ? {
           title: "Sign Out",
-          icon: LogOut,
+          icon: SignOut,
           onClick: handleSignOut,
         }
       : {
           title: "Log In",
-          icon: LogIn,
+          icon: SignIn,
           onClick: () => router.push("/login"),
         },
   ];

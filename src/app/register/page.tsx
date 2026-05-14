@@ -5,9 +5,9 @@ import { GoogleChromeLogo, GithubLogo, Eye, Cpu, WarningCircle } from "@phosphor
 import Link from "next/link";
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { login } from "./actions";
+import { signup } from "../login/actions";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
   const nextUrl = searchParams.get("next") || "/dashboard";
@@ -59,9 +59,9 @@ export default function LoginPage() {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
           >
-            <h1 className="text-4xl font-medium tracking-tight whitespace-nowrap text-white mb-2">Welcome Back</h1>
+            <h1 className="text-4xl font-medium tracking-tight whitespace-nowrap text-white mb-2">Join Docu</h1>
             <p className="text-white/60 text-sm leading-relaxed px-4 -ml-4">
-              Enter your credentials to access the EngineDoc terminal.
+              Follow these 3 quick phases to activate your space.
             </p>
           </motion.div>
 
@@ -72,9 +72,9 @@ export default function LoginPage() {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
           >
-            <StepItem number={1} text="Authenticate Identity" active />
-            <StepItem number={2} text="Access Workspace" />
-            <StepItem number={3} text="Ship Faster" />
+            <StepItem number={1} text="Register your identity" active />
+            <StepItem number={2} text="Configure your studio" />
+            <StepItem number={3} text="Finalize your profile" />
           </motion.div>
         </motion.div>
       </div>
@@ -88,8 +88,8 @@ export default function LoginPage() {
           className="w-full max-w-xl space-y-8 lg:space-y-6 sm:space-y-10"
         >
           <div>
-            <h2 className="text-3xl font-medium tracking-tight text-white">Sign In</h2>
-            <p className="text-white/40 text-sm mt-2">Log into your existing workspace.</p>
+            <h2 className="text-3xl font-medium tracking-tight text-white">Create New Profile</h2>
+            <p className="text-white/40 text-sm mt-2">Input your basic details to begin the journey.</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -104,13 +104,18 @@ export default function LoginPage() {
             <div className="relative bg-black px-4 text-xs font-medium text-white/40 uppercase tracking-widest">Or</div>
           </div>
 
-          <form className="space-y-4" action={login}>
+          <form className="space-y-4" action={signup}>
             <input type="hidden" name="next" value={nextUrl} />
-            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <InputGroup name="firstName" label="First Name" placeholder="Jane" type="text" />
+              <InputGroup name="lastName" label="Last Name" placeholder="Doe" type="text" />
+            </div>
+
             <InputGroup name="email" label="Email" placeholder="jane@example.com" type="email" />
 
             <div className="space-y-1">
               <InputGroup name="password" label="Password" placeholder="••••••••" type="password" isPassword />
+              <p className="text-[10px] text-white/40 pl-1 mt-1">Requires at least 8 symbols.</p>
             </div>
 
             {error && (
@@ -124,12 +129,12 @@ export default function LoginPage() {
               type="submit"
               className="w-full h-14 bg-white text-black font-semibold rounded-xl hover:bg-white/90 active:scale-[0.98] transition-all mt-4"
             >
-              Log In
+              Create Account
             </button>
           </form>
 
           <p className="text-center text-sm text-white/60 pt-2">
-            New to Docu? <Link href="/register" className="text-white hover:underline font-medium transition-colors">Create an account</Link>
+            Member of the team? <Link href="/login" className="text-white hover:underline font-medium transition-colors">Log in</Link>
           </p>
         </motion.div>
       </div>
