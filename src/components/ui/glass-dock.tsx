@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { LucideIcon } from "lucide-react";
+import { Icon as PhosphorIcon } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export interface DockItem {
   title: string;
-  icon: LucideIcon;
+  icon: PhosphorIcon | React.ElementType;
   onClick?: () => void;
   href?: string;
 }
@@ -50,9 +50,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
       <div ref={ref} className={cn("w-max", className)} {...props}>
         <div
           className={cn(
-            "relative flex gap-4 items-center px-6 py-4 rounded-xl",
-            "border border-[#27272a] bg-[#0a0a0a]/90",
-            "backdrop-blur-xl shadow-lg",
+            "flex gap-4 items-center px-6 py-4 rounded-2xl glass3d",
             dockClassName,
           )}
           onMouseLeave={() => {
@@ -77,11 +75,10 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
               >
                 <div
                   className={cn(
-                    "px-5 py-2 rounded-lg",
+                    "px-3 py-1.5 rounded-lg",
                     "bg-[#0a0a0a] text-white",
                     "shadow-md flex items-center justify-center",
-                    "border border-[#27272a]",
-                    "min-w-[100px] ",
+                    "border border-[#27272a]"
                   )}
                 >
                   <div className="relative h-4 flex items-center justify-center overflow-hidden w-full">
@@ -153,12 +150,12 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
                   transition={{ type: "spring", stiffness: 300, damping: 24 }}
                 >
                   <Icon
-                    size={22}
-                    strokeWidth={2}
+                    size={24}
+                    weight="duotone"
                     className={cn(
                       "transition-colors duration-200",
                       isHovered
-                        ? "text-primary"
+                        ? "text-primary drop-shadow-[0_0_8px_rgba(255,77,0,0.4)]"
                         : "text-zinc-500",
                     )}
                   />
