@@ -4,23 +4,19 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export function PremiumBackground() {
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   // Particle positions
-  const particles = Array.from({ length: 15 }).map((_, i) => ({
+  const [particles] = useState(() => Array.from({ length: 15 }).map((_, i) => ({
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
     size: Math.random() * 4 + 1,
     duration: Math.random() * 20 + 20,
     delay: Math.random() * 5,
-  }));
+  })));
+
+
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none bg-black">

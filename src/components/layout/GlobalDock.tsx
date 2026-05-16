@@ -1,13 +1,11 @@
 "use client";
 
-import Link from "next/link";
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@supabase/supabase-js";
-import { GlobalSearchModal } from "@/components/ui/GlobalSearchModal";
 import { createClient } from "@/utils/supabase/client";
-import GlassDock from "@/components/ui/glass-dock";
+import { GlobalSearchModal } from "@/components/ui/GlobalSearchModal";
+import { Dock, DockItem } from "@/components/unlumen-ui/dock";
 import {
   House,
   FileText,
@@ -19,7 +17,7 @@ import {
   SignIn,
 } from "@phosphor-icons/react";
 
-export function TopNav() {
+export function GlobalDock() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
@@ -65,60 +63,54 @@ export function TopNav() {
     router.refresh();
   };
 
-  const items = [
+  const items: DockItem[] = [
     {
-      title: "Home",
-      icon: House,
+      label: "Home",
+      icon: <House weight="duotone" />,
       onClick: () => router.push("/"),
     },
     {
-      title: "Docs",
-      icon: FileText,
+      label: "Docs",
+      icon: <FileText weight="duotone" />,
       onClick: () => router.push("/docs"),
     },
     {
-      title: "Dashboard",
-      icon: SquaresFour,
+      label: "Dashboard",
+      icon: <SquaresFour weight="duotone" />,
       onClick: () => router.push("/dashboard"),
     },
     {
-      title: "API",
-      icon: Code,
+      label: "API",
+      icon: <Code weight="duotone" />,
       href: "#",
     },
     {
-      title: "Search",
-      icon: MagnifyingGlass,
+      label: "Search",
+      icon: <MagnifyingGlass weight="duotone" />,
       onClick: () => setIsSearchOpen(true),
     },
     {
-      title: "Settings",
-      icon: Gear,
+      label: "Settings",
+      icon: <Gear weight="duotone" />,
       onClick: () => router.push("/settings"),
     },
     user
       ? {
-          title: "Sign Out",
-          icon: SignOut,
+          label: "Sign Out",
+          icon: <SignOut weight="duotone" />,
           onClick: handleSignOut,
         }
       : {
-          title: "Log In",
-          icon: SignIn,
+          label: "Log In",
+          icon: <SignIn weight="duotone" />,
           onClick: () => router.push("/login"),
         },
   ];
 
   return (
     <>
-      <div className="fixed top-6 left-6 z-50">
-        <Link href="/" className="text-xl font-bold tracking-tighter text-[#ffffff] flex items-center gap-2 group px-4 py-2 rounded-xl bg-[#0a0a0a] border border-[#27272a] hover:bg-[#111111] hover:border-[#3f3f46] transition-colors shadow-sm">
-          <span className="w-2 h-6 bg-primary rounded-full group-hover:scale-110 transition-transform"></span>
-          EngineDoc
-        </Link>
-      </div>
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-        <GlassDock items={items} />
+        <Dock items={items} className="bg-[#0a0a0a]/80 border-[#27272a] backdrop-blur-md" />
       </div>
       <GlobalSearchModal
         isOpen={isSearchOpen}
