@@ -3,11 +3,19 @@
 import { motion } from "framer-motion";
 import { GoogleChromeLogo, GithubLogo, Eye, Cpu, WarningCircle } from "@phosphor-icons/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { login } from "./actions";
+import { login, signInWithGoogle } from "./actions";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen w-full bg-black flex items-center justify-center text-white/50">Loading...</div>}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
   const nextUrl = searchParams.get("next") || "/dashboard";
@@ -93,7 +101,7 @@ export default function LoginPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <SocialButton icon={<GoogleChromeLogo className="w-5 h-5" />} label="Google" />
+            <SocialButton icon={<GoogleChromeLogo className="w-5 h-5" />} label="Google" action={signInWithGoogle} />
             <SocialButton icon={<GithubLogo className="w-5 h-5" />} label="Github" />
           </div>
 
@@ -161,11 +169,25 @@ function StepItem({ number, text, active }: { number: number; text: string; acti
   );
 }
 
-function SocialButton({ icon, label }: { icon: React.ReactNode; label: string }) {
+function SocialButton({ icon, label, action }: { icon: React.ReactNode; label: string; action?: () => void }) {
+  if (action) {
+    return (
+      <form action={action} className="w-full">
+        <button
+          type="submit"
+          className="flex w-full items-center justify-center gap-2 bg-black border border-white/10 rounded-xl hover:bg-white/5 transition-colors h-12 text-white text-sm font-medium"
+        >
+          {icon}
+          {label}
+        </button>
+      </form>
+    );
+  }
+
   return (
     <button
       type="button"
-      className="flex items-center justify-center gap-2 bg-black border border-white/10 rounded-xl hover:bg-white/5 transition-colors h-12 text-white text-sm font-medium"
+      className="flex w-full items-center justify-center gap-2 bg-black border border-white/10 rounded-xl hover:bg-white/5 transition-colors h-12 text-white text-sm font-medium"
     >
       {icon}
       {label}

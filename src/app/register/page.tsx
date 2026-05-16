@@ -3,11 +3,19 @@
 import { motion } from "framer-motion";
 import { GoogleChromeLogo, GithubLogo, Eye, Cpu, WarningCircle } from "@phosphor-icons/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { signup } from "../login/actions";
+import { signup } from "@/app/login/actions";
 
 export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen w-full bg-black flex items-center justify-center text-white/50">Loading...</div>}>
+      <RegisterForm />
+    </Suspense>
+  );
+}
+
+function RegisterForm() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
   const nextUrl = searchParams.get("next") || "/dashboard";

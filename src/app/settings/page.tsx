@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TopNav } from "@/components/layout/TopNav";
+
 
 
 import { containerVariants, itemVariants } from "@/lib/animations";
@@ -11,7 +11,7 @@ import { ToggleSwitch } from "@/components/ui/ToggleSwitch";
 export default function SettingsPage() {
   return (
     <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col">
-      <TopNav />
+
       <div className="flex flex-1 overflow-hidden">
         {/* SideNavBar for Settings */}
         <aside className="fixed left-0 top-0 h-screen w-64 border-r border-white/5 bg-[#0e0e0e]/60 backdrop-blur-md hidden md:flex flex-col p-4 pt-20 gap-2 z-40">
