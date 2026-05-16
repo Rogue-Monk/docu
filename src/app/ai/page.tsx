@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TopNav } from "@/components/layout/TopNav";
+
 import { containerVariants, itemVariants } from "@/lib/animations";
 import { APP_SIDEBAR_LINKS } from "@/lib/constants";
 import { CodeWindow } from "@/components/ui/CodeWindow";
@@ -20,7 +20,7 @@ export default function AIExplanationPage() {
 
   return (
     <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col">
-      <TopNav />
+
 
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">

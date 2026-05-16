@@ -1,4 +1,4 @@
-import { TopNav } from "@/components/layout/TopNav";
+
 import { Footer } from "@/components/layout/Footer";
 
 export default function MarketingLayout({
@@ -8,7 +8,7 @@ export default function MarketingLayout({
 }) {
   return (
     <>
-      <TopNav />
+
       {children}
       <Footer />
     </>

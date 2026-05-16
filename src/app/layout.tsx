@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { GlobalDock } from "@/components/layout/GlobalDock";
+import { StartupScreen } from "@/components/ui/startup-screen";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,7 +39,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body bg-background text-on-surface selection:bg-secondary/30 min-h-screen flex flex-col">
+        <StartupScreen />
         {children}
+        <GlobalDock />
       </body>
     </html>
   );
