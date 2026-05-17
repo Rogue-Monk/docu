@@ -69,7 +69,7 @@ function VerifyForm() {
           >
             <h1 className="text-4xl font-medium tracking-tight whitespace-nowrap text-white mb-2">Check Email</h1>
             <p className="text-white/60 text-sm leading-relaxed px-4 -ml-4">
-              We've sent a 6-digit code to verify your identity.
+              We've sent an 8-digit code to verify your identity.
             </p>
           </motion.div>
         </motion.div>
@@ -86,7 +86,7 @@ function VerifyForm() {
           <div>
             <h2 className="text-3xl font-medium tracking-tight text-white">Verification</h2>
             <p className="text-white/40 text-sm mt-2">
-              Enter the 6-digit code sent to <span className="text-white font-medium">{email}</span>
+              Enter the 8-digit code sent to <span className="text-white font-medium">{email}</span>
             </p>
           </div>
 
@@ -99,8 +99,8 @@ function VerifyForm() {
               <input
                 name="code"
                 type="text"
-                maxLength={6}
-                placeholder="123456"
+                maxLength={8}
+                placeholder="12345678"
                 required
                 className="w-full bg-[#111111] border border-transparent focus:border-white/20 rounded-xl h-14 px-4 text-white placeholder:text-white/20 focus:ring-2 focus:ring-white/20 outline-none transition-all text-center tracking-[1em] text-xl font-mono"
               />

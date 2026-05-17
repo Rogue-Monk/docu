@@ -62,13 +62,13 @@ export async function verifyOtp(formData: FormData) {
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
-  const code = formData.get("code") as string;
+  const code = (formData.get("code") as string).trim();
   const nextUrl = (formData.get("next") as string) || "/dashboard";
 
   const { error } = await supabase.auth.verifyOtp({
     email,
     token: code,
-    type: "signup",
+    type: "email",
   });
 
   if (error) {
