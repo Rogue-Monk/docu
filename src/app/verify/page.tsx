@@ -69,7 +69,7 @@ function VerifyForm() {
           >
             <h1 className="text-4xl font-medium tracking-tight whitespace-nowrap text-white mb-2">Check Email</h1>
             <p className="text-white/60 text-sm leading-relaxed px-4 -ml-4">
-              We've sent an 8-digit code to verify your identity.
+              We&apos;ve sent an 8-digit code to verify your identity.
             </p>
           </motion.div>
         </motion.div>
@@ -123,7 +123,7 @@ function VerifyForm() {
           </form>
 
           <p className="text-center text-sm text-white/60 pt-2">
-            Didn't receive the code? Check your spam folder.
+            Didn&apos;t receive the code? Check your spam folder.
           </p>
         </motion.div>
       </div>

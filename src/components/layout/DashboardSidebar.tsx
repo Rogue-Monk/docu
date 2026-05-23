@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { DASHBOARD_LINKS } from "@/lib/constants";
+import { signout } from "@/app/login/actions";
 
 export function DashboardSidebar() {
   return (
@@ -45,6 +46,11 @@ export function DashboardSidebar() {
           <Link className="text-[#9a9a9a] hover:text-[#e7e4ec] flex items-center gap-3 text-[0.8rem] transition-colors" href="#">
             <span className="material-symbols-outlined text-sm">vpn_key</span> API Keys
           </Link>
+          <form action={signout}>
+            <button type="submit" className="text-[#9a9a9a] hover:text-[#ef4444] flex items-center gap-3 text-[0.8rem] transition-colors w-full text-left mt-2">
+              <span className="material-symbols-outlined text-sm">logout</span> Logout
+            </button>
+          </form>
         </div>
       </div>
     </motion.aside>

@@ -6,7 +6,7 @@
  */
 export class ProcessingQueue {
   // TODO: Implement job queueing logic (e.g., using BullMQ or similar)
-  addJob(jobId: string, data: any) {
+  addJob(jobId: string, data: unknown) {
     // ...
   }
 }

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { GlobalDock } from "@/components/layout/GlobalDock";
+import { LiquidNavigation } from "@/components/layout/LiquidNavigation";
 import { StartupScreen } from "@/components/ui/startup-screen";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -29,7 +31,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
+      className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
@@ -38,10 +41,13 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body bg-background text-on-surface selection:bg-secondary/30 min-h-screen flex flex-col">
-        <StartupScreen />
-        {children}
-        <GlobalDock />
+      <body className="font-body bg-background text-on-surface selection:bg-secondary/30 min-h-screen flex flex-col transition-colors duration-300">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <StartupScreen />
+          {children}
+          <LiquidNavigation />
+          <ThemeToggle />
+        </ThemeProvider>
       </body>
     </html>
   );
