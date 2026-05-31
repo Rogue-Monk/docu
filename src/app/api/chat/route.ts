@@ -5,32 +5,22 @@ import { streamText } from 'ai';
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  // Extract the `messages` from the body of the request
-  const { messages } = await req.json();
+  // Extract the `messages`, `filename`, and `code` from the body of the request
+  const { messages, filename, code } = await req.json();
+
+  const activeFilename = filename || 'control_loop.c';
+  const activeCode = code || '';
 
   // Call the language model
   const result = await streamText({
-    model: google('gemini-1.5-flash'),
+    model: google('models/gemini-3.5-flash'),
     system: `You are EngineDoc AI, a highly technical coding assistant helping a user debug their code.
-    The user is currently viewing a file named 'control_loop.c'.
-    Here is the content of 'control_loop.c':
-    \`\`\`c
-    void calculate_fuel_trim(float manifold_pressure, float rpm) {
-        // Target AFR is 14.7 for stoichiometric balance
-        const float target_afr = 14.7f;
-        float base_load = (manifold_pressure * 0.85f) / rpm;
-
-        if (base_load > 1.2f) {
-            enrichment_protocol(base_load);
-        } else {
-            normalize_lambda();
-        }
-
-        // Output results to the primary ECU register
-        update_ecu_register(FUEL_TRIM_ADDR, base_load / target_afr);
-    }
+    The user is currently viewing a file named '${activeFilename}'.
+    Here is the content of '${activeFilename}':
     \`\`\`
-    Answer their questions concisely and professionally, focusing on the code provided.`,
+    ${activeCode}
+    \`\`\`
+    Answer their questions concisely and professionally, focusing on the code provided. If the code is not provided or empty, ask the user to select or paste some code first.`,
     messages,
   });
 

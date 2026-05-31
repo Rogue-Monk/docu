@@ -1,22 +1,79 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import { containerVariants, itemVariants } from "@/lib/animations";
 import { APP_SIDEBAR_LINKS } from "@/lib/constants";
 import { CodeWindow } from "@/components/ui/CodeWindow";
 import { useChat, Message } from "ai/react";
+import { docsData } from "@/data/docsData";
+
+const files = [
+  {
+    name: "control_loop.c",
+    path: "V8-Turbo-2024 / firmware / control_loop.c",
+    module: "firmware",
+    title: "Main Injection Control",
+    code: `void calculate_fuel_trim(float manifold_pressure, float rpm) {
+    // Target AFR is 14.7 for stoichiometric balance
+    const float target_afr = 14.7f;
+    float base_load = (manifold_pressure * 0.85f) / rpm;
+
+    if (base_load > 1.2f) {
+        enrichment_protocol(base_load);
+    } else {
+        normalize_lambda();
+    }
+
+    // Output results to the primary ECU register
+    update_ecu_register(FUEL_TRIM_ADDR, base_load / target_afr);
+}`,
+    language: "c",
+    memory: "64KB / 128KB stack",
+    accuracy: "99.82%",
+    latency: "14ms ago"
+  },
+  ...docsData.map(doc => ({
+    name: `${doc.title}.ts`,
+    path: `${doc.module} / ${doc.title}.ts`,
+    module: doc.module,
+    title: doc.title,
+    code: doc.codeSnippet,
+    language: "typescript",
+    memory: doc.type === "Interface" ? "N/A (Type Definition)" : "Heap allocated",
+    accuracy: doc.type === "Interface" ? "100% Static Check" : "99.98% runtime verified",
+    latency: doc.updatedAt
+  }))
+];
 
 export default function AIExplanationPage() {
-  const { messages, input, handleInputChange, handleSubmit, append, isLoading } = useChat({
+  const [selectedFile, setSelectedFile] = useState(files[0]);
+
+  const { messages, input, handleInputChange, handleSubmit, append, isLoading, setMessages } = useChat({
+    body: {
+      filename: selectedFile.name,
+      code: selectedFile.code,
+    },
     initialMessages: [
       {
         id: "1",
         role: "assistant",
-        content: "Hello! I've analyzed `control_loop.c`. How can I help you debug the fuel injection sequence today?",
+        content: `Hello! I've analyzed \`${selectedFile.name}\`. How can I help you debug or understand it today?`,
       },
     ],
   });
+
+  // When selected file changes, update initial messages and reset chat
+  useEffect(() => {
+    setMessages([
+      {
+        id: Date.now().toString(),
+        role: "assistant",
+        content: `Hello! I've analyzed \`${selectedFile.name}\`. How can I help you debug or understand it today?`,
+      },
+    ]);
+  }, [selectedFile, setMessages]);
 
   return (
     <div className="bg-background text-on-surface font-body selection:bg-secondary/30 min-h-screen flex flex-col">
@@ -46,8 +103,22 @@ export default function AIExplanationPage() {
           <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex-grow max-w-4xl min-w-0">
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Main Injection Control</h1>
-                <p className="text-on-surface-variant text-sm font-mono">V8-Turbo-2024 / firmware / control_loop.c</p>
+                <div className="flex items-center gap-4 flex-wrap mb-2">
+                  <h1 className="text-3xl font-bold text-white tracking-tight">{selectedFile.title}</h1>
+                  <select
+                    value={selectedFile.name}
+                    onChange={(e) => {
+                      const file = files.find(f => f.name === e.target.value);
+                      if (file) setSelectedFile(file);
+                    }}
+                    className="bg-[#131316] border border-white/10 rounded-lg text-xs text-white p-2 outline-none focus:border-secondary cursor-pointer"
+                  >
+                    {files.map(f => (
+                      <option key={f.name} value={f.name}>{f.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <p className="text-on-surface-variant text-sm font-mono">{selectedFile.path}</p>
               </div>
               <div className="flex gap-2">
                 <button className="bg-surface-container-highest border border-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/5 transition-colors text-white font-medium">
@@ -61,35 +132,9 @@ export default function AIExplanationPage() {
             </motion.div>
 
             {/* Bento Code Block */}
-            <CodeWindow variants={itemVariants} variant="detailed" filename="control_loop.c">
-              <pre>
-                <code>
-                  <span className="text-tertiary">void</span> <span className="text-secondary font-bold">calculate_fuel_trim</span>(<span className="text-tertiary">float</span> manifold_pressure, <span className="text-tertiary">float</span> rpm) {"{"}
-                  <br />
-                  <span className="text-on-surface-variant italic">{"// Target AFR is 14.7 for stoichiometric balance"}</span>
-                  <br />
-                  <span className="text-tertiary">const float</span> target_afr = <span className="text-pink-400">14.7f</span>;
-                  <br />
-                  <span className="text-tertiary">float</span> base_load = (manifold_pressure * <span className="text-pink-400">0.85f</span>) / rpm;
-                  <br />
-                  <br />
-                  <span className="text-tertiary">if</span> (base_load &gt; <span className="text-pink-400">1.2f</span>) {"{"}
-                  <br />
-                  <span className="text-secondary font-bold ml-4">enrichment_protocol</span>(base_load);
-                  <br />
-                  {"}"} <span className="text-tertiary">else</span> {"{"}
-                  <br />
-                  <span className="text-secondary font-bold ml-4">normalize_lambda</span>();
-                  <br />
-                  {"}"}
-                  <br />
-                  <br />
-                  <span className="text-on-surface-variant italic">{"// Output results to the primary ECU register"}</span>
-                  <br />
-                  <span className="text-secondary font-bold">update_ecu_register</span>(FUEL_TRIM_ADDR, base_load / target_afr);
-                  <br />
-                  {"}"}
-                </code>
+            <CodeWindow variants={itemVariants} variant="detailed" filename={selectedFile.name}>
+              <pre className="font-mono text-sm leading-6 text-on-surface-variant overflow-x-auto p-4 max-h-[450px] overflow-y-auto custom-scrollbar">
+                <code>{selectedFile.code}</code>
               </pre>
             </CodeWindow>
 
@@ -102,15 +147,15 @@ export default function AIExplanationPage() {
                 <div className="h-1 bg-white/10 rounded-full overflow-hidden">
                   <motion.div initial={{ width: 0 }} animate={{ width: "66%" }} transition={{ delay: 0.5, duration: 1 }} className="h-full bg-secondary shadow-[0_0_8px_rgba(0,220,130,0.5)]"></motion.div>
                 </div>
-                <p className="mt-4 text-xs text-on-surface-variant uppercase tracking-widest font-bold">64KB / 128KB stack utilized</p>
+                <p className="mt-4 text-xs text-on-surface-variant uppercase tracking-widest font-bold">{selectedFile.memory}</p>
               </motion.div>
               <motion.div variants={itemVariants} className="acrylic-card p-6 rounded-xl border border-white/5 group hover:border-tertiary/30 transition-colors">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="material-symbols-outlined text-tertiary">speed</span>
                   <h4 className="font-bold text-white">Cycle Accuracy</h4>
                 </div>
-                <p className="text-3xl font-black tracking-tighter text-tertiary">99.82%</p>
-                <p className="mt-2 text-xs text-on-surface-variant font-mono">Last run: 14ms ago</p>
+                <p className="text-3xl font-black tracking-tighter text-tertiary">{selectedFile.accuracy}</p>
+                <p className="mt-2 text-xs text-on-surface-variant font-mono">Last run: {selectedFile.latency}</p>
               </motion.div>
             </div>
           </motion.div>
@@ -129,7 +174,7 @@ export default function AIExplanationPage() {
                   <div className="w-2 h-2 rounded-full bg-secondary animate-pulse shadow-[0_0_8px_#00DC82]"></div>
                   <span className="text-sm font-bold tracking-tight text-white">EngineDoc AI</span>
                 </div>
-                <span className="text-[10px] font-black tracking-widest text-secondary bg-secondary/10 px-2 py-1 rounded">GEMINI 1.5 FLASH</span>
+                <span className="text-[10px] font-black tracking-widest text-secondary bg-secondary/10 px-2 py-1 rounded">GEMINI 3.5 FLASH</span>
               </div>
 
               {/* Chat History */}
@@ -170,7 +215,9 @@ export default function AIExplanationPage() {
                     ].map((opt, i) => (
                       <motion.button
                         key={i}
-                        onClick={() => append({ role: "user", content: opt.label })}
+                        onClick={() =>
+                          append({ role: "user", content: opt.label })
+                        }
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         className="text-left w-full p-3 rounded-xl bg-black/40 border border-white/5 text-xs font-medium text-[#d0d0d0] hover:border-secondary/50 hover:bg-secondary/5 transition-all group shadow-sm"
@@ -186,7 +233,10 @@ export default function AIExplanationPage() {
               </div>
 
               {/* Input Area */}
-              <form onSubmit={handleSubmit} className="p-4 bg-black/40 border-t border-white/5 shrink-0">
+              <form
+                onSubmit={handleSubmit}
+                className="p-4 bg-black/40 border-t border-white/5 shrink-0"
+              >
                 <div className="relative">
                   <textarea
                     value={input}
