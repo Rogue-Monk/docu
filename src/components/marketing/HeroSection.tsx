@@ -5,8 +5,13 @@ import { fadeUp, staggerContainer } from "@/lib/animations";
 import { AcrylicPanel } from "@/components/ui/AcrylicCard";
 import { CodeWindow } from "@/components/ui/CodeWindow";
 import { TextRotate } from "@/components/ui/text-rotate";
-import { PremiumBackground } from "@/components/ui/premium-background";
+import dynamic from "next/dynamic";
 import { CyberGlitchText } from "@/components/ui/cyber-glitch-text";
+
+const PremiumBackground = dynamic(
+  () => import("@/components/ui/premium-background").then((mod) => mod.PremiumBackground),
+  { ssr: false }
+);
 
 export function HeroSection() {
   return (
